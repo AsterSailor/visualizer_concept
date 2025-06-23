@@ -114,7 +114,7 @@ export function list(
       if (e.type === "list") {
         list(ctx, e.value, x_val + 120 * i + 13, y_val + 84);
       } else if (e.type === "vector") {
-        vector(ctx, e.value, x_val + 120 * i + 13, y_val + 84);
+        vector(ctx, e.value, x_val + 120 * i + 13, y_val + 97);
       }
     } else {
       ctx.fillText(`${e}`, x_val + 120 * i + 13, y_val + 27 + 77);
@@ -164,7 +164,7 @@ export function vector(
         len_count += e.value.length * 120;
       } else if (e.type === "vector") {
         ctx.strokeRect(x_val + len_count, y_val, e.value.length * 120, 40);
-        vector(ctx, e.value, x_val + len_count + 13, y_val + 84);
+        vector(ctx, e.value, x_val + len_count + 13, y_val + 97);
         len_count += e.value.length * 120;
       }
     } else {
@@ -194,7 +194,7 @@ export function environment(ctx: CanvasRenderingContext2D, rows: any[]) {
         }
       });
     } else if (e.value.type === "vector") {
-      vector(ctx, e.value.value, 16 * e.name.length + 88, 7 + i * 45 + buffer);
+      vector(ctx, e.value.value, 16 * e.name.length + 88, 20 + i * 45 + buffer);
       buffer += 80;
       e.value.value.forEach((e: any) => {
         if (typeof e === "object") {
