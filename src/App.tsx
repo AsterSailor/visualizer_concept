@@ -52,7 +52,12 @@ let initialRows: {
   { name: "str_vec", value: vecObj },
 ];
 
-export function arrow(ctx: CanvasRenderingContext2D, x_val: number, y_val: number, dir: string) {
+export function arrow(
+  ctx: CanvasRenderingContext2D,
+  x_val: number,
+  y_val: number,
+  dir: string
+) {
   if (dir == "horizontal") {
     ctx.beginPath();
     ctx.setLineDash([]);
@@ -92,7 +97,12 @@ export function arrow(ctx: CanvasRenderingContext2D, x_val: number, y_val: numbe
   }
 }
 
-export function list(ctx: CanvasRenderingContext2D, lst: any[], x_val: number, y_val: number) {
+export function list(
+  ctx: CanvasRenderingContext2D,
+  lst: any[],
+  x_val: number,
+  y_val: number
+) {
   lst.forEach((e: any, i: number) => {
     ctx.strokeRect(x_val + 120 * i, y_val, 40, 40);
     ctx.strokeRect(x_val + 40 + 120 * i, y_val, 30, 40);
@@ -128,10 +138,20 @@ export function list(ctx: CanvasRenderingContext2D, lst: any[], x_val: number, y
   });
 }
 
-export function vector(ctx: CanvasRenderingContext2D, vec: any[], x_val: number, y_val: number) {
+export function vector(
+  ctx: CanvasRenderingContext2D,
+  vec: any[],
+  x_val: number,
+  y_val: number
+) {
   let len_count = 0;
-  vec.forEach((e) => {
+  vec.forEach((e: any, i: number) => {
     let str_e = `${e}`;
+    let str_i = `${i}`;
+
+    ctx.font = "12px serif";
+    ctx.fillText(str_i, x_val + len_count, y_val - 3);
+    ctx.font = "24px courier";
 
     ctx.beginPath();
     ctx.ellipse(x_val + len_count + 20, y_val + 20, 4, 4, 0, 0, 7);
@@ -187,7 +207,7 @@ export function environment(ctx: CanvasRenderingContext2D, rows: any[]) {
   });
 }
 
-export function Canvas(props: {width: number, height: number, rows: any[]}) {
+export function Canvas(props: { width: number; height: number; rows: any[] }) {
   const canvasRef = useRef(null);
 
   useEffect(() => {
