@@ -52,7 +52,7 @@ let initialRows: {
   { name: "str_vec", value: vecObj },
 ];
 
-export function arrow(ctx, x_val: number, y_val: number, dir: string) {
+export function arrow(ctx: CanvasRenderingContext2D, x_val: number, y_val: number, dir: string) {
   if (dir == "horizontal") {
     ctx.beginPath();
     ctx.setLineDash([]);
@@ -92,8 +92,8 @@ export function arrow(ctx, x_val: number, y_val: number, dir: string) {
   }
 }
 
-export function list(ctx, lst, x_val, y_val) {
-  lst.forEach((e, i) => {
+export function list(ctx: CanvasRenderingContext2D, lst: any[], x_val: number, y_val: number) {
+  lst.forEach((e: any, i: number) => {
     ctx.strokeRect(x_val + 120 * i, y_val, 40, 40);
     ctx.strokeRect(x_val + 40 + 120 * i, y_val, 30, 40);
     ctx.beginPath();
@@ -128,7 +128,7 @@ export function list(ctx, lst, x_val, y_val) {
   });
 }
 
-export function vector(ctx, vec, x_val, y_val) {
+export function vector(ctx: CanvasRenderingContext2D, vec: any[], x_val: number, y_val: number) {
   let len_count = 0;
   vec.forEach((e) => {
     let str_e = `${e}`;
@@ -155,7 +155,7 @@ export function vector(ctx, vec, x_val, y_val) {
   });
 }
 
-export function environment(ctx, rows) {
+export function environment(ctx: CanvasRenderingContext2D, rows: any[]) {
   let buffer = 0;
   rows.forEach((e, i) => {
     ctx.strokeRect(7, 7 + i * 45 + buffer, 26 + 16 * e.name.length, 40);
@@ -168,7 +168,7 @@ export function environment(ctx, rows) {
     if (e.value.type === "list") {
       list(ctx, e.value.value, 16 * e.name.length + 88, 7 + i * 45 + buffer);
       buffer += 80;
-      e.value.value.forEach((e) => {
+      e.value.value.forEach((e: any) => {
         if (typeof e === "object") {
           buffer += 80;
         }
@@ -187,7 +187,7 @@ export function environment(ctx, rows) {
   });
 }
 
-export function Canvas(props) {
+export function Canvas(props: {width: number, height: number, rows: any[]}) {
   const canvasRef = useRef(null);
 
   useEffect(() => {
