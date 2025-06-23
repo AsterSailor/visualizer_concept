@@ -176,7 +176,7 @@ export function environment(ctx: CanvasRenderingContext2D, rows: any[]) {
     } else if (e.value.type === "vector") {
       vector(ctx, e.value.value, 16 * e.name.length + 88, 7 + i * 45 + buffer);
       buffer += 80;
-      e.value.value.forEach((e) => {
+      e.value.value.forEach((e: any) => {
         if (typeof e === "object") {
           buffer += 80;
         }
