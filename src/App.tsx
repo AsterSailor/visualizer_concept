@@ -31,7 +31,7 @@ let rosieObj: {
   value: rosieVec,
 };
 
-let miniList: any[] = [2, rosieObj, rosieObj];
+let miniList: any[] = [2, "red", "roses"];
 
 let miniListObj: {
   type: any;
@@ -196,10 +196,11 @@ export function environment(ctx: CanvasRenderingContext2D, rows: any[]) {
     ctx.fillText(`${e.name}`, 13, 32 + i * 45 + buffer);
     if (e.value.type === "list") {
       list(ctx, e.value.value, 16 * e.name.length + 88, 7 + i * 45 + buffer);
-      buffer += 40*e.value.length;
+      buffer += 40;
+      
     } else if (e.value.type === "vector") {
       vector(ctx, e.value.value, 16 * e.name.length + 88, 20 + i * 45 + buffer);
-      buffer += 5340*e.value.length;
+      buffer += 13 + 40;
     } else {
       ctx.fillText(`${e.value}`, 16 * e.name.length + 88, 32 + i * 45 + buffer);
     }
