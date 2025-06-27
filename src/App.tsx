@@ -48,7 +48,7 @@ let nestedVecObj: {
   value: any;
 } = {
   type: "vector",
-  value: nestedVec,
+  value: rosieVec,
 };
 
 let initialRows: {
@@ -59,10 +59,29 @@ let initialRows: {
   { name: "y", value: 4 },
   { name: "num_list", value: listObj },
   { name: "z", value: 8 },
-  { name: "step", value: nestedVecObj },
+//  { name: "step", value: nestedVecObj },
   { name: "str_vec", value: vecObj },
 ];
 
+export function height(array: any[], buffer: number) {
+  let max: number = 0;
+  let r_array = array.toReversed();
+  r_array.forEach((e:any,i:number) => {
+    if(typeof e.value === "object") {
+      let temp = height(e.value, max)
+      if(temp > max) {
+        max = temp
+      }
+    } else {
+      let temp = 40 * i
+      if (temp > max) {
+        max = temp;
+      }
+    }
+  })
+  
+  return buffer += max;
+}
 
 export function arrow(
   ctx: CanvasRenderingContext2D,
@@ -152,6 +171,48 @@ export function list(
   });
 }
 
+export function simpleList(
+  ctx: CanvasRenderingContext2D,
+  lst: any[],
+  x_val: number,
+  y_val: number
+) {
+  let count = lst.length;
+  lst.forEach((e: any, i: number) => {
+    ctx.strokeRect(x_val + 120 * i, y_val, 40, 40);
+    ctx.strokeRect(x_val + 40 + 120 * i, y_val, 30, 40);
+    ctx.beginPath();
+    ctx.ellipse(x_val + 120 * i + 20, y_val + 20, 4, 4, 0, 0, 7);
+    ctx.fill();
+    if (typeof e === "object") {
+      if (e.type === "list") {
+        list(ctx, e.value, x_val + 120 * i + 13, y_val + 57);
+      } else if (e.type === "vector") {
+        vector(ctx, e.value, x_val + 120 * i + 13, y_val + 57);
+      }
+    } else {
+      ctx.fillText(`${e}`, x_val + 120 * i + 13, y_val + 57 + 40);
+    }
+
+    // draws dot and arrow to next list element
+    if (i !== lst.length - 1) {
+      ctx.beginPath();
+      ctx.ellipse(x_val + 120 * i + 55, y_val + 20, 4, 4, 0, 0, 7);
+      ctx.fill();
+      arrow(ctx, x_val + 120 * i + 56, y_val + 20, "horizontal", 57);
+    } else {
+      // draws the dash representing a null pointer
+      ctx.beginPath();
+      ctx.setLineDash([]);
+      ctx.moveTo(x_val + 40 + 120 * i, y_val);
+      ctx.lineTo(x_val + 70 + 120 * i, y_val + 40);
+      ctx.stroke();
+    }
+    arrow(ctx, x_val + 120 * i + 20, y_val + 20, "vertical", 10 + 40);
+    count--;
+  });
+}
+
 export function vector(
   ctx: CanvasRenderingContext2D,
   vec: any[],
@@ -195,12 +256,13 @@ export function environment(ctx: CanvasRenderingContext2D, rows: any[]) {
 
     ctx.fillText(`${e.name}`, 13, 32 + i * 45 + buffer);
     if (e.value.type === "list") {
-      list(ctx, e.value.value, 16 * e.name.length + 88, 7 + i * 45 + buffer);
+      simpleList(ctx, e.value.value, 16 * e.name.length + 88, 7 + i * 45 + buffer);
       buffer += 40;
-      
+      buffer += 40//*e.value.value.length
     } else if (e.value.type === "vector") {
       vector(ctx, e.value.value, 16 * e.name.length + 88, 20 + i * 45 + buffer);
       buffer += 13 + 40;
+      buffer += 40*e.value.value.length
     } else {
       ctx.fillText(`${e.value}`, 16 * e.name.length + 88, 32 + i * 45 + buffer);
     }
